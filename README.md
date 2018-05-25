@@ -1,3 +1,3 @@
 # cryptoscreensaver
 
-https://cryptoscreensaver.space/
+http://cryptoscreensaver.space/
