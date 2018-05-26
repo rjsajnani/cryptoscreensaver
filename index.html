@@ -17,7 +17,8 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-
+    <link rel="icon" href="favicon.ico" />
+    
     <style type="text/css">
         body {
             background: #000; // url(textures/back.jpg) no-repeat center center fixed;
@@ -363,7 +364,9 @@
     
     <script src="js/three.min.js"></script>
     <script src="js/screenfull.min.js"></script>
-
+    <script src="js/GameAnalytics.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+    
     <div id="menu">
         <div id="full-scr" onclick="fullscreen()"><i class="fas fa-expand"></i> Full Screen</div>
         <br>
@@ -378,12 +381,18 @@
     
     <h2 id="tapandhold">[tap and hold on for dear life]</h2>
     
-    <h2 id="youvepassed">You've just passed through Giant Shitcoin Cluster. <br> Hold on, Satoshi himself wants to speak with you.</h2>
+    <h2 id="youvepassed">You've passed through Great Shitcoin Cluster. <br> Hold on, Satoshi himself wants to speak with you.</h2>
     
     <span id="overlay"></span>
     
     <script>
         
+        /* stats = new Stats();
+        stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+        document.body.appendChild( stats.domElement ); */
+        
+        GameAnalytics("setEnabledInfoLog", false);
+        GameAnalytics("initialize", "f435a7f9b6198118da5aa5a719a870b9", "4084d40c4513e0438188794f25a0fc16c09242db");
         
         var isMobile = false;
         
@@ -418,7 +427,7 @@
         var geometry;
     
         
-        var distance = isMobile ? 15000 : 30000;
+        var distance = isMobile ? 20000 : 30000;
 
         init();
 
@@ -511,6 +520,8 @@
             }
             
             camera.rotation.z += 2 * rotation * 0.01;
+            
+             // stats.update();
         }
 
 
@@ -535,7 +546,7 @@
                 }));
 
             }
-            load_materials(200)
+            load_materials(200);
 
             var d = (distance + 2500) / coins;
             var m = 0;
@@ -560,9 +571,9 @@
         
         function load_materials(i) {
             
-            if (i >= isMobile ? 1000 : 2000) return;
+            if (i >= (isMobile ? 500 : 2000)) return;
 
-                if (exceptions[i]) {
+            if (exceptions[i]) {
                     url = exceptions[i];
                 } else {
                     url = `https://s2.coinmarketcap.com/static/img/coins/128x128/${i}.png`;
@@ -576,7 +587,7 @@
                 }));
 
             i++;
-            
+
             setTimeout(function() { load_materials(i) }, 1);
         }
         
